@@ -1,18 +1,34 @@
 #%%
-from scipy import signal
-from scipy.io import wavfile
-import matplotlib.pyplot as plt
-import numpy as np
 from setup import Setup
+from dataloader import DataLoader
+from feature_extraction import feature_extraction
+from visualization import Visualization
+from tqdm import tqdm
 
-data_path = '/home/movic/True_NAS2/PoC_SDI_03/E0001S03/2024080219/20240802190036.wav'
-_, data = wavfile.read(data_path)
-f, t, Sxx = signal.spectrogram(x=data, fs=384000, nperseg=4096, nfft=4096, noverlap=2048, mode='magnitude', scaling='spectrum')
-power = Sxx**2
-dB = 10*np.log10(power)
-plt.pcolormesh(t, f, dB, cmap='seismic')
-plt.title('E0001S03')
-plt.ylabel('Frequency [Hz]')
-plt.xlabel('Time [sec]')
-plt.show()
-# plt.savefig(fname=f'{Setup.save_directory}{Setup.sensor_nm}/{Setup.start_point}_{Setup.end_point}/{data_paths[i].split('/')[-1][:-4]}')
+def frequency_cut(data, low_cut=20000, high_cut = 80000):
+    """
+    data (H, W) -> data (H[low_cut ~ high_cut], W)
+    return data(H,W)
+    """
+    unit = 2049/192000
+    data = data[int(unit*low_cut) : int(unit*high_cut), :]
+    return data
+
+sensor_name = "E0001S02"
+start_point = "20240801120001"
+end_point = "20240802120000"
+
+setup_instance = Setup(sensor_nm=sensor_name, start_point=start_point, end_point=end_point)
+
+data_loader = DataLoader()
+data_files = data_loader.transform_list(setup_instance)
+visualization = Visualization()
+
+print(data_files[0])
+
+for data_file in tqdm(data_files, desc="Processing files", unit="file"):
+    setup_instance.apply(data_file)
+    
+    f, t, dB = feature_extraction(data_file, setup_instance)
+    dB = frequency_cut(dB)
+    visualization.save_png(setup_instance, data_file)

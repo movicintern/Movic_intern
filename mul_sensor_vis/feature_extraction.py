@@ -5,8 +5,8 @@ from dataloader import DataLoader
 import numpy as np
 import os
 
-def feature_extraction(data, instance:Setup):
-    data_path = os.path.join(instance.root, instance.sensor_nm, data[:-8], data)
+def feature_extraction(data_path, instance:Setup):
+    #data_path = os.path.join(instance.root, instance.sensor_nm, data[:-8], data)
     _, data = wavfile.read(data_path)
     f, t, Sxx = signal.spectrogram(x=data, fs=instance.sampling_rate,
                                     nperseg=instance.fft_size, nfft=instance.fft_size,
