@@ -9,9 +9,6 @@ class Setup:
         self.sensor_nm = sensor_nm
         self.start_point = start_point
         self.end_point = end_point
-        
-        
-        ##
 
         self.root = root
         self.date = start_point[:-6]+"/"

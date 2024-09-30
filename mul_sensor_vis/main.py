@@ -24,20 +24,17 @@ data_loader = DataLoader()
 all_data_files = data_loader.transform_list(setup_instance)
 visualization = Visualization()
 
-print(all_data_files[0])
 
 data_file1 = all_data_files[0]
 data_file2 = all_data_files[1]
 
 for num in tqdm(range(len(data_file1)), desc="Processing files", unit="file"):
         setup_instance.apply(data_file1[num])
-        setup_instance.apply(data_file2[num])
+        # setup_instance.apply(data_file2[num])
 
-        f1, t1, dB1 = feature_extraction(data_file1[num], setup_instance)
-        f2, t2, dB2 = feature_extraction(data_file2[num], setup_instance)
+        # f1, t1, dB1 = feature_extraction(data_file1[num], setup_instance)
+        # f2, t2, dB2 = feature_extraction(data_file2[num], setup_instance)
 
-        dB1 = frequency_cut(dB1)
-        dB2 = frequency_cut(dB2)
 
         visualization.save_png(setup_instance, data_file1[num], data_file2[num])
         break

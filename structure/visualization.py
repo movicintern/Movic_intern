@@ -4,6 +4,15 @@ from setup import Setup
 from feature_extraction import feature_extraction
 import numpy as np
 
+def frequency_cut(data, low_cut=20000, high_cut = 80000):
+    """
+    data (H, W) -> data (H[low_cut ~ high_cut], W)
+    return data(H,W)
+    """
+    unit = 2049/192000
+    data = data[int(unit*low_cut) : int(unit*high_cut), :]
+    return data
+
 class Visualization:
     def __init__(self):
         pass
@@ -11,6 +20,8 @@ class Visualization:
     def save_png(self, instance: Setup, data):
         data_nm = os.path.basename(data).split('.')[0]
         f, t, dB = feature_extraction(data, instance)
+        
+        dB = frequency_cut(dB)
 
         # 스펙트로그램 시각화
         plt.pcolormesh(t, f, dB, cmap='jet')
