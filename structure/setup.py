@@ -2,8 +2,8 @@ import os
 
 class Setup:
     def __init__(self, sensor_nm, start_point, end_point,
-                 root='/home/movic/True_NAS2/PoC_SDI_03/',
-                 save_directory='/home/movic/EDA/Movic_intern/structure/Result/',
+                 root='/home/movic/True_NAS2/PoC_IPA_01/3_motor-10kt',
+                 save_directory='/home/movic/EDA/Movic_intern/IPA/3_motor-10kt/',
                  bbox_inches='tight', file_format='png',
                  sampling_rate=384000, fft_size=4096, hop_size=2048):
         self.sensor_nm = sensor_nm

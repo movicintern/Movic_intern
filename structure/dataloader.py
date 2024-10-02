@@ -1,5 +1,6 @@
 from setup import Setup
 import os
+import random
 
 class DataLoader:
     def __init__(self):
@@ -20,4 +21,7 @@ class DataLoader:
             for file in files 
             if file.endswith('.wav')
         ]
+
+        random.shuffle(wav_files)
+
         return wav_files

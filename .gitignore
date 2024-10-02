@@ -2,4 +2,8 @@
 *.pyc
 __pycache__/
 Result/
-240926/
+IPA_EDA/*
+IPA/*
+*.png
+multi_sensor/*
+mul_sensor_vis/IPA/*
