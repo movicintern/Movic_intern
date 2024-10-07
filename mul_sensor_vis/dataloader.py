@@ -18,7 +18,11 @@ class DataLoader:
                     for _, _, files in os.walk(subfolder):
                         for file in files:
                             if file.endswith('.wav'):
-                                wav_files.append(os.path.join(subfolder, file))
+                                # 파일명에서 확장자를 제거한 부분을 가져옵니다.
+                                file_name = os.path.splitext(file)[0]
+                                # 파일명이 start_point와 end_point 사이에 있는지 확인합니다.
+                                if file_name > instance.start_point and file_name < instance.end_point:
+                                    wav_files.append(os.path.join(subfolder, file))
                                 
             all_wav_files.append(wav_files)
 

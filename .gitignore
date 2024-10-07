@@ -7,3 +7,4 @@ IPA/*
 *.png
 multi_sensor/*
 mul_sensor_vis/IPA/*
+*.out

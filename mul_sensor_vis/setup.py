@@ -1,14 +1,17 @@
 import os
 
+
+
 class Setup:
-    def __init__(self, sensor_nm, start_point, end_point,
-                 root='/home/movic/True_NAS2/PoC_IPA_01/3_motor-10kt',
-                 save_directory='/home/movic/EDA/Movic_intern/mul_sensor_vis/IPA/',
+    def __init__(self, sensor_nm, start_point, end_point, folder,
+                 root='/home/movic/True_NAS/PoC_IPA_01/3_motor-10kt',
+                 save_directory='/home/movic/True_NAS2/IPA_EDA/JY',
                  bbox_inches='tight', file_format='png',
                  sampling_rate=384000, fft_size=4096, hop_size=2048):
         self.sensor_nm = sensor_nm
         self.start_point = start_point
         self.end_point = end_point
+        self.folder = folder
         
         
         ##
@@ -24,7 +27,7 @@ class Setup:
 
 
     def apply(self, filename):
-        folder_path = f'{self.save_directory}multi_sensor/3_motor-10kt/Date_{self.start_point}~{self.end_point}'
+        folder_path = f'{self.save_directory}/{self.folder}/Date_{self.start_point}~{self.end_point}'
         os.makedirs(folder_path, exist_ok=True)
         path = os.path.join(folder_path, os.path.basename(filename))
         return path
