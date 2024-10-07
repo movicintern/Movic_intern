@@ -3,7 +3,6 @@ import os
 from setup import Setup
 from feature_extraction import feature_extraction
 import numpy as np
-from main import args
 
 def frequency_cut(data, low_cut=20000, high_cut = 500000):
     unit = 2049/192000

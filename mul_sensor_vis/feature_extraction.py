@@ -7,6 +7,7 @@ import os
 
 def feature_extraction(data_path, instance:Setup):
     from main import args
+    
     if args.total_time != 3:
         data_list = []
         for _ in range(args.total_time // 3):

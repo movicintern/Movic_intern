@@ -6,7 +6,6 @@ from tqdm import tqdm
 from multiprocessing import Pool
 from concurrent.futures import ProcessPoolExecutor
 import os
-from setup import args
 
 print(os.cpu_count())
 
@@ -57,20 +56,26 @@ data_file2.sort()
 
 # resume_index = 20914 + 504 + 24282# 재개할 인덱스
 
+num_files = len(data_file1)
+
 # 멀티프로세싱을 위한 인자 준비
 arguments = [(setup_instance, data_file1[num], data_file2[num]) for num in range(len(data_file1))]
 
 # ProcessPoolExecutor 실행
 with ProcessPoolExecutor(max_workers=os.cpu_count() - 2) as executor:
-        for i in range(num_files // 3):  # 전체 파일 수에 따라 반복
-            start_index = i * 3
-            end_index = min(start_index + 3, num_files)  # 리스트 길이를 초과하지 않도록 조정
+    futures = []
 
-            # 인자 준비 및 프로세스 실행
-            for j in range(start_index, end_index):
-                executor.submit(process_file, setup_instance, data_file1[j], data_file2[j])
+    for i in range(num_files // 3):
+        start_index = i * 3
+        end_index = min(start_index + 3, num_files) 
+      
+        for j in range(start_index, end_index):
+            futures.append(executor.submit(process_file, setup_instance, data_file1[j], data_file2[j]))
 
-        # 남은 파일 처리
-        if num_files % 3 != 0:
-            for j in range((num_files // 3) * 3, num_files):
-                executor.submit(process_file, setup_instance, data_file1[j], data_file2[j])
+    if num_files % 3 != 0:
+        for j in range((num_files // 3) * 3, num_files):
+            futures.append(executor.submit(process_file, setup_instance, data_file1[j], data_file2[j]))
+
+    for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Processing files"):
+        future.result()
+# %%
